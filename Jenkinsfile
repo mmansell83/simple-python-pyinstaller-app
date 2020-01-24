@@ -1,4 +1,6 @@
-node {    
+node {
+    checkout scm
+    
     docker.withServer(env.DOCKER_HOST) {
         docker.image('python:2-alpine').inside {
             stage("Build - compile python") {
