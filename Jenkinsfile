@@ -4,6 +4,7 @@ pipeline {
         stage('Build') { 
             agent {
                 docker {
+                    label 'docker'
                     image 'python:2-alpine' 
                 }
             }
