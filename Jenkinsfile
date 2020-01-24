@@ -1,15 +1,17 @@
-node {
-    stage("Test") {
-        checkout scm
-    
-        docker.withServer(env.DOCKER_HOST) {
-            docker.image('python:2-alpine').inside {
-                stage("Build - compile python") {
-                    sh 'python -m py_compile sources/add2vals.py sources/calc.py' 
+pipeline {
+    agent {
+        label 'docker-agent'
+    }
+    stages {
+        stage('Build') { 
+            agent {
+                docker {
+                    image 'python:2-alpine' 
                 }
+            }
+            steps {
+                sh 'python -m py_compile sources/add2vals.py sources/calc.py' 
             }
         }
     }
-    // Clean up workspace
-    step([$class: 'WsCleanup'])
 }
